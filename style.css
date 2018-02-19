@@ -119,7 +119,7 @@ li {
 /* End of view */
 
 circle {
-    stroke: rgba(0, 120, 0, 1);
+    stroke: rgba(0, 128, 0, 1);
     stroke-width: 0.5;
 }
 circle.active {
