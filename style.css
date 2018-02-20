@@ -63,15 +63,15 @@ li {
 /*  Party view */
 #conservative, #labour, #libdem { padding: 10px; }
 #conservative {
-    background: rgba(8, 127, 189, 0.2);
+    background: rgba(0, 51, 0, 1);
     top: 110px;
 }
 #labour {
-    background: rgba(240, 34, 51, 0.2);
+    background: rgba(128, 32, 0, 1);
     top: 330px;
 }
 #libdem {
-    background: rgba(253, 187, 48, 0.2);
+    background: rgba(0, 32, 128, 1);
     top: 550px;
 }
 
@@ -119,7 +119,7 @@ li {
 /* End of view */
 
 circle {
-    stroke: rgba(238, 238, 238, 1);
+    stroke: rgba(0, 128, 0, 1);
     stroke-width: 0.5;
 }
 circle.active {
