@@ -37,6 +37,21 @@
     </script>
 </head>
 <!-- Add feature detection and noscript -->
+<style type="text/css"> /*zoom function*/    
+.zoom {
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+.zoom:hover {
+    -moz-transform: scale(2.0);
+    -webkit-transform: scale(2.0);
+    -o-transform: scale(2.0);
+    transform: scale(2.0);
+    -ms-transform: scale(2.0);
+    filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=2, M12=-0, M21=0, M22=2);
+}
 
 <body>
 
@@ -242,22 +257,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js" charset="utf-8"></script>
     <script src="chart.js"></script>
 </body>
-<style type="text/css"> /*zoom function*/    
-.zoom {
-    -webkit-transition: all .3s ease-out;
-    -moz-transition: all .3s ease-out;
-    -o-transition: all .3s ease-out;
-    transition: all .3s ease-out;
-}
-.zoom:hover {
-    -moz-transform: scale(2.0);
-    -webkit-transform: scale(2.0);
-    -o-transform: scale(2.0);
-    transform: scale(2.0);
-    -ms-transform: scale(2.0);
-    filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=2, M12=-0, M21=0, M22=2);
-}
+
 </style>
-    
+
 
 </html>
