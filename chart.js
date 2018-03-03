@@ -174,7 +174,12 @@ function fundsType() {
 		.on("tick", types)
 		.start();
 }
+function Amount(e) {
+	node.each(moveToAmount(e.alpha));
 
+		node.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) {return d.y; });
+}
 function parties(e) {
 	node.each(moveToParties(e.alpha));
 
@@ -188,12 +193,7 @@ function entities(e) {
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
 }
-function Amount(e) {
-	node.each(moveToAmount(e.alpha));
 
-		node.attr("cx", function(d) { return d.x; })
-			.attr("cy", function(d) {return d.y; });
-}
 function types(e) {
 	node.each(moveToFunds(e.alpha));
 
