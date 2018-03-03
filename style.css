@@ -26,7 +26,7 @@ li {
 }
 
 /* Initial appearance on load */
-#view-party-type, #view-donor-type, #view-source-type,#view-by-amount  {
+#view-party-type, #view-donor-type, #view-source-type, #view-by-amount-donor  {
     display: none;
 }
 
@@ -101,7 +101,7 @@ li {
     text-align: right;
     right: 0
 }
-#view-by-amount-donor { /* new gropu by option*/
+#view-by-amount-donor { /* new group by option*/
     height: 100%;
     left: 450px;
     width: 370px;
