@@ -61,10 +61,10 @@ function transition(name) {
 		sound.play();
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
-		$("#view-by-amount").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-party-type").fadeIn(1000);
+		$("#view-by-amount").fadeOut(250);
 		return partyGroup();
 	}
 	if (name === "group-by-donor-type") {
@@ -72,11 +72,22 @@ function transition(name) {
 		sound.play();
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
-		$("#view-by-amount").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-donor-type").fadeIn(1000);
+		$("#view-by-amount").fadeOut(250);
 		return donorType();
+	}
+	if (name === "group-by-money-source"){
+		sound.currentTime=0;  
+		sound.play();
+		$("#initial-content").fadeOut(250);
+		$("#value-scale").fadeOut(250);
+		$("#view-donor-type").fadeOut(250);
+		$("#view-party-type").fadeOut(250);
+		$("#view-source-type").fadeIn(1000);
+		$("#view-by-amount").fadeOut(250);
+		return fundsType();
 	}
 	if (name === "group-by-amount-donor"){
 		sound.currentTime=0;  
@@ -85,20 +96,9 @@ function transition(name) {
 		$("#value-scale").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
-		$("#view-source-type").fadeIn(250);
-		$("#view-by-amount").fadeOut(1000);
+		$("#view-source-type").fadeOut(1000);
+		$("#view-by-amount").fadeIn(250);
 		return amountType();
-	}
-	if (name === "group-by-money-source"){
-		sound.currentTime=0;  
-		sound.play();
-		$("#initial-content").fadeOut(250);
-		$("#value-scale").fadeOut(250);
-		$("#view-by-amount").fadeOut(250);
-		$("#view-donor-type").fadeOut(250);
-		$("#view-party-type").fadeOut(250);
-		$("#view-source-type").fadeIn(1000);
-		return fundsType();
 	}
 
 function start() {
