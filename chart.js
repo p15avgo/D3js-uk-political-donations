@@ -100,7 +100,7 @@ function transition(name) {
 		$("#view-by-amount").fadeIn(250);
 		return amountType();
 	}
-
+}
 function start() {
 
 	node = nodeGroup.selectAll("circle")
