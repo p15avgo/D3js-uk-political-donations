@@ -48,12 +48,14 @@ function transition(name) {
 		$("#view-donor-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
+		$("#view-by-amount").fadeOut(250);
 		return total();
 		//location.reload();
 	}
 	if (name === "group-by-party") {
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
+		$("#view-by-amount").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-party-type").fadeIn(1000);
@@ -62,14 +64,25 @@ function transition(name) {
 	if (name === "group-by-donor-type") {
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
+		$("#view-by-amount").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-donor-type").fadeIn(1000);
 		return donorType();
 	}
-	if (name === "group-by-money-source")
+	if (name === "group-by-amount-donor")
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
+		$("#view-donor-type").fadeOut(250);
+		$("#view-party-type").fadeOut(250);
+		$("#view-source-type").fadeIn(250);
+		$("#view-by-amount").fadeOut(1000);
+		return amountType();
+	}
+	if (name === "group-by-money-source"){
+		$("#initial-content").fadeOut(250);
+		$("#value-scale").fadeOut(250);
+		$("#view-by-amount").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
 		$("#view-source-type").fadeIn(1000);
@@ -133,7 +146,13 @@ function donorType() {
 		.on("tick", entities)
 		.start();
 }
-
+function amountType(){
+	force.gravity(0)
+		.friction(0.8)
+		.charge(function(d){return -Math.pow(d.radius,2.0)/3;})
+		.on("tick", byAmount)
+		.start();
+}
 function fundsType() {
 	force.gravity(0)
 		.friction(0.75)
@@ -155,7 +174,12 @@ function entities(e) {
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
 }
+function byAmount(e) {
+	node.each(moveTobyAmount(e.alpha));
 
+		node.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) {return d.y; });
+}
 function types(e) {
 	node.each(moveToFunds(e.alpha));
 
@@ -224,7 +248,35 @@ function moveToEnts(alpha) {
 		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 1.1;
 	};
 }
+function moveTobyAmount(alpha) {
+	return function(d) {
+			var centreX;
+			var centreY;
+			if (d.value <= 100000) {
+				centreY = 700;
+				centreX = 300;
+				
+			} else if (d.value <= 500000) {
+				centreY = 600;
+				centreX = 750;
+				
+			} else if (d.value <= 1000000) {
+				centreY = 500;
+				centreX = 300;
+				
+			} else  if (d.value <= 5000000) {
+				centreY = 400;
+				centreX = 750;
+				
+			} else  if (d.value <= maxVal) {
+				centreY = 300;
+				centreX = 300;
+			}
 
+		d.x += (centreX - d.x) * (brake + 0.06) * alpha * 1.2;
+		d.y += (centreY - 100 - d.y) * (brake + 0.06) * alpha * 1.2;
+	};
+}
 function moveToFunds(alpha) {
 	return function(d) {
 		var centreY = entityCentres[d.entity].y;
@@ -344,6 +396,8 @@ function mouseover(d, i) {
     .style("top", (parseInt(d3.select(this).attr("cy") - (d.radius+150)) + offset.top) + "px")
 		.html(infoBox)
 			.style("display","block");
+	var speech = new SpeechSynthesisUtterance("The donator is " + donor + " and the given amount is " + amount + " pounds");
+	window.speechSynthesis.speak(speech);
 	
 	
 	}
@@ -356,6 +410,7 @@ function mouseout() {
 
 		d3.select(".tooltip")
 			.style("display", "none");
+		window.speechSynthesis.cancel();
 		}
 
 $(document).ready(function() {
