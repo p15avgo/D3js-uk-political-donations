@@ -5,6 +5,8 @@ var nodes = [];
 var force, node, data, maxVal;
 var brake = 0.2;
 var radius = d3.scale.sqrt().range([10, 20]);
+var sound = new Audio("ButtonSound.mp3");
+var GooglePls = "http://www.google.com/search?q=";
 
 var partyCentres = { 
     con: { x: w / 3, y: h / 3.3}, 
@@ -43,6 +45,8 @@ var comma = d3.format(",.0f");
 
 function transition(name) {
 	if (name === "all-donations") {
+		sound.currentTime=0;  
+		sound.play();
 		$("#initial-content").fadeIn(250);
 		$("#value-scale").fadeIn(1000);
 		$("#view-donor-type").fadeOut(250);
@@ -53,6 +57,8 @@ function transition(name) {
 		//location.reload();
 	}
 	if (name === "group-by-party") {
+		sound.currentTime=0;  
+		sound.play();
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
 		$("#view-by-amount").fadeOut(250);
@@ -62,6 +68,8 @@ function transition(name) {
 		return partyGroup();
 	}
 	if (name === "group-by-donor-type") {
+		sound.currentTime=0;  
+		sound.play();
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
 		$("#view-by-amount").fadeOut(250);
@@ -70,7 +78,9 @@ function transition(name) {
 		$("#view-donor-type").fadeIn(1000);
 		return donorType();
 	}
-	if (name === "group-by-amount-donor")
+	if (name === "group-by-amount-donor"){
+		sound.currentTime=0;  
+		sound.play();
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
@@ -80,6 +90,8 @@ function transition(name) {
 		return amountType();
 	}
 	if (name === "group-by-money-source"){
+		sound.currentTime=0;  
+		sound.play();
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
 		$("#view-by-amount").fadeOut(250);
@@ -106,7 +118,7 @@ function start() {
 		.style("fill", function(d) { return fill(d.party); })
 		.on("mouseover", mouseover)
 		.on("mouseout", mouseout)
-		.on("click", function(d) { window.open("http://www.google.com/search?q=" + d.donor);});
+		.on("click", function(d) { window.open(GooglePls + d.donor);});
 		// Alternative title based 'tooltips'
 		// node.append("title")
 		//	.text(function(d) { return d.donor; });
@@ -143,7 +155,7 @@ function partyGroup() {
 function donorType() {
 	force.gravity(0)
 		.friction(0.8)
-		.charge(function(d) { return -Math.pow(d.radius, 2.0) / 3; })
+		.charge(function(d) { return -Math.pow(d.radius, 2) / 2.5; })
 		.on("tick", entities)
 		.start();
 }
