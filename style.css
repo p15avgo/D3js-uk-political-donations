@@ -39,6 +39,31 @@ li {
     left: 650px;
     width: 272px;
 }
+#view-amount-type {
+ height: 100%;
+    left: 450px;
+    width: 370px;
+}
+#first {
+    top: 50px;
+}
+#second{
+    top: 150px;
+    left: 10px;
+}
+#third {
+    top: 335px;
+    left: -80px;
+}
+#fourth {
+    top: 480px;
+    right: -80px;
+}
+#last {
+    top: 650px;
+    left: -70px;
+}
+
 
 /*  Public or private funds view */
 
@@ -100,30 +125,6 @@ li {
     top: 530px;
     text-align: right;
     right: 0
-}
-#view-amount-type {
- height: 100%;
-    left: 450px;
-    width: 370px;
-}
-#first {
-    top: 50px;
-}
-#second{
-    top: 150px;
-    left: 10px;
-}
-#third {
-    top: 335px;
-    left: -80px;
-}
-#fourth {
-    top: 480px;
-    right: -80px;
-}
-#last {
-    top: 650px;
-    left: -70px;
 }
 
 /* Value scale */
