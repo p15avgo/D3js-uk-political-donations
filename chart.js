@@ -5,7 +5,6 @@ var nodes = [];
 var force, node, data, maxVal;
 var brake = 0.2;
 var radius = d3.scale.sqrt().range([10, 20]);
-var sound = new Audio("ButtonSound.mp3");
 var GooglePls = "http://www.google.com/search?q=";
 
 var partyCentres = { 
