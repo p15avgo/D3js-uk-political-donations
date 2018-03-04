@@ -32,27 +32,17 @@
     </script>
 </head>
 <!-- Add feature detection and noscript -->
-<style type="text/css"> /*zoom function*/    
-.zoom {
-    -webkit-transition: all .3s ease-out;
-    -moz-transition: all .3s ease-out;
-    -o-transition: all .3s ease-out;
-    transition: all .3s ease-out;
-}
-.zoom:hover {
-    -moz-transform: scale(2.0);
-    -webkit-transform: scale(2.0);
-    -o-transform: scale(2.0);
-    transform: scale(2.0);
-    -ms-transform: scale(2.0);
-    filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=2, M12=-0, M21=0, M22=2);
-}
-</style>
 
 <body>
 
     <header role="banner" id="title">
         <h1 class=zoom>Who's funding the big three?</h1>
+    <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+    <script>
+        var bs = new Audio();
+        bs.src = "ButtonSound.mp3";
+    </script>
+        
     </header>
     <nav role="navigation">
         <ul>
@@ -104,7 +94,7 @@
                 <p class=zoom ><strong>&#163;500k &#8212;</strong></p>
             </div>
             <div id="e">
-                <strong class=zoom>&#163;1m &#8212;</strong>
+                <p class=zoom ><strong>&#163;1m &#8212;</strong></p>
             </div>
         </div>
         <!-- End initial-->
@@ -218,26 +208,30 @@
             </div>
         </div>
         <div id = "view-by-amount-donor">
-         <div id="enormous">
-                <h3 class=zoom> Donations over 5.000.000 Pounds</h3>
-             
-        <div id="huge">
-                <h3 class=zoom> Donations up to 5.000.000 Pounds</h3>
-         </div>
-         
-         <div id="large">
-               <h3 class=zoom> Donations up to 1.000.000 Pounds</h3>
-         </div>
-         
-         <div id="normal">
-                <h3 class=zoom> Donations up to 500.000 Pounds</h3>
-         </div>
-         
-         <div id="minor">
-                <h3 class=zoom> Donations up to 100.000 Pounds</h3>
-         </div> 
-             
-        </div>   
+            <div id="first">
+                <h3 class=zoom>Donors' Amounts</h3>
+                <p class=zoom><strong> Over &#163;10,000,000
+                    </strong></p>    
+            <div id="second">
+                <h3 class=zoom>Donors' Amounts</h3>
+                <p class=zoom><strong>Between &#163;10,000,000 and &#163;1,000,000
+                    </strong></p>
+            </div>
+            <div id="third">
+                <h3 class=zoom>Donors' Amounts</h3>
+                <p class=zoom><strong>Between &#163;1,000,000 and &#163;500,000
+                    </strong></p>
+            </div>
+            <div id="fourth">
+                <h3 class=zoom>Donors' Amounts</h3>
+                <p class=zoom><strong>Between &#163;500,000 and &#163;100,000
+                    </strong></p>
+            </div>
+            <div id="last">
+                <h3 class=zoom>Donors' Amounts</h3>
+                <p class=zoom><strong>Under &#163;100,000
+                    </strong></p>
+            </div>
     </div>
     <div id="chart"></div>
 
@@ -249,6 +243,23 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js" charset="utf-8"></script>
     <script src="chart.js"></script>
 </body>
+<style type="text/css"> /*zoom function*/    
+.zoom {
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+.zoom:hover {
+    -moz-transform: scale(2.0);
+    -webkit-transform: scale(2.0);
+    -o-transform: scale(2.0);
+    transform: scale(2.0);
+    -ms-transform: scale(2.0);
+    filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=2, M12=-0, M21=0, M22=2);
+}
+</style>
+
 
 
 </html>

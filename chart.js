@@ -5,7 +5,6 @@ var nodes = [];
 var force, node, data, maxVal;
 var brake = 0.2;
 var radius = d3.scale.sqrt().range([10, 20]);
-var sound = new Audio("ButtonSound.mp3");
 var GooglePls = "http://www.google.com/search?q=";
 
 var partyCentres = { 
@@ -133,13 +132,6 @@ function start() {
 			.duration(2500)
 			.attr("r", function(d) { return d.radius; });
 }
-function amountType(){
-	force.gravity(0)
-		.friction(0.8)
-		.charge(function(d){return -Math.pow(d.radius, 2.0) / 3 ;})
-		.on("tick", Amount)
-		.start();
-}
 
 function total() {
 
@@ -174,11 +166,12 @@ function fundsType() {
 		.on("tick", types)
 		.start();
 }
-function Amount(e) {
-	node.each(moveToAmount(e.alpha));
-
-		node.attr("cx", function(d) { return d.x; })
-			.attr("cy", function(d) {return d.y; });
+function amountType(){
+	force.gravity(0)
+		.friction(0.8)
+		.charge(function(d){return -Math.pow(d.radius, 2.0) / 3 ;})
+		.on("tick", Amount)
+		.start();
 }
 function parties(e) {
 	node.each(moveToParties(e.alpha));
@@ -201,43 +194,18 @@ function types(e) {
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
 }
+function Amount(e) {
+	node.each(moveToAmount(e.alpha));
 
+		node.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) {return d.y; });
+}
 function all(e) {
 	node.each(moveToCentre(e.alpha))
 		.each(collide(0.001));
 
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
-}
-
-function moveToAmount(alpha) {
-	return function(d) {
-			var centreX;
-			var centreY;
-		if (d.value >= 10000000) {
-			centreY = 300;
-			centreX = 200;
-				
-		} else if (d.value < 10000000 && d.value>= 1000000) {
-				centreY = 450;
-				centreX = 700;
-				
-		} else if (d.value < 1000000 && d.value >= 500000) {
-				centreY = 600;
-				centreX = 200;
-				
-		} else  if (d.value < 500000 && d.value >= 100000) {
-				centreY = 700;
-				centreX = 750;
-				
-		} else  if (d.value <= maxVal) {
-				centreY = 800;
-				centreX = 200;
-		}
-
-		d.x += (centreX - d.x) * (brake + 0.06) * alpha * 1.2;
-		d.y += (centreY - 100 - d.y) * (brake + 0.06) * alpha * 1.2;
-	};
 }
 function moveToCentre(alpha) {
 	return function(d) {
@@ -306,7 +274,35 @@ function moveToFunds(alpha) {
 		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 1.1;
 	};
 }
+function moveToAmount(alpha) {
+	return function(d) {
+			var centreX;
+			var centreY;
+		if (d.value >= 10000000) {
+			centreY = 300;
+			centreX = 200;
+				
+		} else if (d.value < 10000000 && d.value>= 1000000) {
+				centreY = 450;
+				centreX = 700;
+				
+		} else if (d.value < 1000000 && d.value >= 500000) {
+				centreY = 600;
+				centreX = 200;
+				
+		} else  if (d.value < 500000 && d.value >= 100000) {
+				centreY = 700;
+				centreX = 750;
+				
+		} else  if (d.value <= maxVal) {
+				centreY = 800;
+				centreX = 200;
+		}
 
+		d.x += (centreX - d.x) * (brake + 0.06) * alpha * 1.2;
+		d.y += (centreY - 100 - d.y) * (brake + 0.06) * alpha * 1.2;
+	};
+}
 // Collision detection function by m bostock
 function collide(alpha) {
   var quadtree = d3.geom.quadtree(nodes);
