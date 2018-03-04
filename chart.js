@@ -177,7 +177,12 @@ function parties(e) {
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
 }
+function Amount(e) {
+	node.each(moveToAmount(e.alpha));
 
+		node.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) {return d.y; });
+}
 function entities(e) {
 	node.each(moveToEnts(e.alpha));
 
@@ -188,12 +193,6 @@ function entities(e) {
 function types(e) {
 	node.each(moveToFunds(e.alpha));
 
-
-		node.attr("cx", function(d) { return d.x; })
-			.attr("cy", function(d) {return d.y; });
-}
-function Amount(e) {
-	node.each(moveToAmount(e.alpha));
 
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
@@ -228,7 +227,35 @@ function moveToCentre(alpha) {
 		d.y += (centreY - 100 - d.y) * (brake + 0.06) * alpha * 1.2;
 	};
 }
+function moveToAmount(alpha) {
+	return function(d) {
+			var centreX;
+			var centreY;
+		if (d.value >= 10000000) {
+			centreY = 300;
+			centreX = 200;
+				
+		} else if (d.value < 10000000 && d.value>= 1000000) {
+				centreY = 450;
+				centreX = 700;
+				
+		} else if (d.value < 1000000 && d.value >= 500000) {
+				centreY = 600;
+				centreX = 200;
+				
+		} else  if (d.value < 500000 && d.value >= 100000) {
+				centreY = 700;
+				centreX = 750;
+				
+		} else  if (d.value <= maxVal) {
+				centreY = 800;
+				centreX = 200;
+		}
 
+		d.x += (centreX - d.x) * (brake + 0.06) * alpha * 1.2;
+		d.y += (centreY - 100 - d.y) * (brake + 0.06) * alpha * 1.2;
+	};
+}
 function moveToParties(alpha) {
 	return function(d) {
 		var centreX = partyCentres[d.party].x + 50;
@@ -272,35 +299,7 @@ function moveToFunds(alpha) {
 		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 1.1;
 	};
 }
-function moveToAmount(alpha) {
-	return function(d) {
-			var centreX;
-			var centreY;
-		if (d.value >= 10000000) {
-			centreY = 300;
-			centreX = 200;
-				
-		} else if (d.value < 10000000 && d.value>= 1000000) {
-				centreY = 450;
-				centreX = 700;
-				
-		} else if (d.value < 1000000 && d.value >= 500000) {
-				centreY = 600;
-				centreX = 200;
-				
-		} else  if (d.value < 500000 && d.value >= 100000) {
-				centreY = 700;
-				centreX = 750;
-				
-		} else  if (d.value <= maxVal) {
-				centreY = 800;
-				centreX = 200;
-		}
 
-		d.x += (centreX - d.x) * (brake + 0.06) * alpha * 1.2;
-		d.y += (centreY - 100 - d.y) * (brake + 0.06) * alpha * 1.2;
-	};
-}
 // Collision detection function by m bostock
 function collide(alpha) {
   var quadtree = d3.geom.quadtree(nodes);
