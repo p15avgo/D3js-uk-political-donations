@@ -96,8 +96,8 @@ function transition(name) {
 		$("#value-scale").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
-		$("#view-source-type").fadeOut(1000);
-		$("#view-by-amount").fadeIn(250);
+		$("#view-source-type").fadeOut(250);
+		$("#view-by-amount").fadeIn(1000);
 		return amountType();
 	}
 }
