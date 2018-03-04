@@ -21,7 +21,7 @@ li {
 
 /* 	Information boxes for different chart layouts */
 /* Positioning */
-#initial-content, #a, #b, #c, #d, #e, #f,#view-party-type, #view-donor-type, #view-source-type, #partyInfo, #conservative, #labour, #libdem, #individual, #company, #union, #society, #other, #public-or-private-money, #public-or-private-money-split, #private-money, #public-money { 
+#initial-content, #a, #b, #c, #d, #e, #f, #first, #second, #third, #fourth, #last, #view-party-type, #view-donor-type, #view-source-type, #partyInfo, #conservative, #labour, #libdem, #individual, #company, #union, #society, #other, #public-or-private-money, #public-or-private-money-split, #private-money, #public-money { 
     position: absolute; 
 }
 
@@ -38,29 +38,6 @@ li {
 #view-party-type {
     left: 650px;
     width: 272px;
-}
-#view-amount-type {
-    height: 100%;
-}
-#amount1 {
-    left: 150px;
-    top: 230px;
-    position: absolute;
-}
-#amount2 {
-    left: 425px;
-    top: 265px;
-    position: absolute; 
-}
-#amount3 {
-    left: 700px;
-    top: 300px;
-    position: absolute; 
-}
-#amount4 {
-    top: 120px;
-    left: 425px;
-    position: absolute;
 }
 
 /*  Public or private funds view */
@@ -124,6 +101,31 @@ li {
     text-align: right;
     right: 0
 }
+#view-amount-type {
+ height: 100%;
+    left: 450px;
+    width: 370px;
+}
+#first {
+    top: 50px;
+}
+#second{
+    top: 150px;
+    left: 10px;
+}
+#third {
+    top: 335px;
+    left: -80px;
+}
+#fourth {
+    top: 480px;
+    right: -80px;
+}
+#last {
+    top: 650px;
+    left: -70px;
+}
+
 /* Value scale */
 
 #value-scale {
