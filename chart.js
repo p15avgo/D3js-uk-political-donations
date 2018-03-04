@@ -131,7 +131,13 @@ function start() {
 			.duration(2500)
 			.attr("r", function(d) { return d.radius; });
 }
-
+function amountType(){
+	force.gravity(0)
+		.friction(0.8)
+		.charge(function(d){return -Math.pow(d.radius, 2.0) / 3 ;})
+		.on("tick", Amount)
+		.start();
+}
 function total() {
 
 	force.gravity(0)
@@ -163,13 +169,6 @@ function fundsType() {
 		.friction(0.75)
 		.charge(function(d) { return -Math.pow(d.radius, 2.0) / 3; })
 		.on("tick", types)
-		.start();
-}
-function amountType(){
-	force.gravity(0)
-		.friction(0.8)
-		.charge(function(d){return -Math.pow(d.radius, 2.0) / 3 ;})
-		.on("tick", Amount)
 		.start();
 }
 function parties(e) {
