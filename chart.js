@@ -277,19 +277,23 @@ function moveToFunds(alpha) {
 function moveToAmounts(alpha) {
 	return function(d) {
 		var centreY = svgCentre.y;
-		if (d.value <= 50001) {
-				centreX = svgCentre.x + 500;	//500
-			} else if (d.value <= 100001) {
-				centreX = svgCentre.x + 400;	//400
+		if (d.value <= 100001) {
+				centreX = svgCentre.x;
+				centreY = svgCentre.y + 80;
 			} else if (d.value <= 250001) {
-				centreX = svgCentre.x + 300;	//300
-			} else  if (d.value <= 500001) {
-				centreX = svgCentre.x + 200;	//200
+				centreX = svgCentre.x + 350;
+				centreY = svgCentre.y + 80;
+			} else if (d.value <= 500001) {
+				centreX = svgCentre.x;
+				centreY = svgCentre.y - 180;//300
 			} else  if (d.value <= 1000001) {
-				centreX = svgCentre.x + 100;	//100
-			} else  //if (d.value <= 10000001) 
+				centreX = svgCentre.x + 350;
+				centreY = svgCentre.y - 180;//200
+			}// else  if (d.value <= 1000001) {
+			//	centreX = svgCentre.x + 100;	//100
+			} //else  //if (d.value <= 10000001) 
 			{
-				centreX = svgCentre.x + 50 ;
+				//centreX = svgCentre.x + 50 ;
 			} //else {
 			//	centreX = svgCentre.x; // if the amount of the donation > maxVal, it is classified within the largest amounts
 			//}
