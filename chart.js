@@ -279,20 +279,25 @@ function moveToAmounts(alpha) {
 		var centreY = svgCentre.y;
 		if (d.value <= 100001) {
 				centreX = svgCentre.x + 600;
-				centreY = svgCentre.y + 400;//500
+				centreY = svgCentre.y + 200;//500
 			} else if (d.value <= 250001) {
 				centreX = svgCentre.x + 500;
-				centreY = svgCentre.y + 200;//400
+				centreY = svgCentre.y + 100;//400
 			} else if (d.value <= 500001) {
-				centreX = svgCentre.x + 400;	//300
+				centreX = svgCentre.x + 400;
+				centreY = svgCentre.y + 50;//300
 			} else  if (d.value <= 1000001) {
-				centreX = svgCentre.x + 300;	//200
+				centreX = svgCentre.x + 300;
+				centreY = svgCentre.y;//200
 			} else  if (d.value <= 5000001) {
-				centreX = svgCentre.x + 200;	//100
+				centreX = svgCentre.x + 200;
+				centreY = svgCentre.y + 50;//100
 			} else  if (d.value <= maxVal) {
 				centreX = svgCentre.x ;
+				centreY = svgCentre.y + 100;
 			} else {
-				centreX = svgCentre.x; // if the amount of the donation > maxVal, it is classified within the largest amounts
+				centreX = svgCentre.x;
+				centreY = svgCentre.y + 200;// if the amount of the donation > maxVal, it is classified within the largest amounts
 			}
 		
 		d.x += (centreX - d.x) * (brake + 0.1) * alpha * 2.2;	//d.x += (centreX - d.x) * (brake + 0.02) * alpha * 1.1;
