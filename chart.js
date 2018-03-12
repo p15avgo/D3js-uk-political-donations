@@ -265,33 +265,27 @@ function moveToFunds(alpha) {
 		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 1.1;
 	};
 }
-function moveToAmount(alpha) {
+function moveToAmounts(alpha) {
 	return function(d) {
-			var centreX;
-			var centreY;
-		if (d.value >= 10000000) {
-			centreY = 300;
-			centreX = 200;
-				
-		} else if (d.value < 10000000 && d.value>= 1000000) {
-				centreY = 450;
-				centreX = 700;
-				
-		} else if (d.value < 1000000 && d.value >= 500000) {
-				centreY = 600;
-				centreX = 200;
-				
-		} else  if (d.value < 500000 && d.value >= 100000) {
-				centreY = 700;
-				centreX = 750;
-				
-		} else  if (d.value <= maxVal) {
-				centreY = 800;
-				centreX = 200;
-		}
-
-		d.x += (centreX - d.x) * (brake + 0.06) * alpha * 1.2;
-		d.y += (centreY - 100 - d.y) * (brake + 0.06) * alpha * 1.2;
+		var centreY = svgCentre.y;
+		if (d.value <= 25001) {
+				centreX = svgCentre.x + 600;	//500
+			} else if (d.value <= 50001) {
+				centreX = svgCentre.x + 500;	//400
+			} else if (d.value <= 100001) {
+				centreX = svgCentre.x + 400;	//300
+			} else  if (d.value <= 500001) {
+				centreX = svgCentre.x + 300;	//200
+			} else  if (d.value <= 1000001) {
+				centreX = svgCentre.x + 200;	//100
+			} else  if (d.value <= maxVal) {
+				centreX = svgCentre.x ;
+			} else {
+				centreX = svgCentre.x; // if the amount of the donation > maxVal, it is classified within the largest amounts
+			}
+		
+		d.x += (centreX - d.x) * (brake + 0.1) * alpha * 2.2;	//d.x += (centreX - d.x) * (brake + 0.02) * alpha * 1.1;
+		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 2.2;	//d.y += (centreY - d.y) * (brake + 0.02) * alpha * 2.2;
 	};
 }
 // Collision detection function by m bostock
@@ -406,12 +400,13 @@ function mouseover(d, i) {
 
 function mouseout() {
 	// no more tooltips
-		window.speechSynthesis.cancel();
+		
 		var mosie = d3.select(this);
 		mosie.classed("active", false);
 
 		d3.select(".tooltip")
 			.style("display", "none");
+		window.speechSynthesis.cancel();
 		}
 
 $(document).ready(function() {
