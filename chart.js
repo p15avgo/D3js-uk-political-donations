@@ -278,7 +278,8 @@ function moveToAmounts(alpha) {
 	return function(d) {
 		var centreY = svgCentre.y;
 		if (d.value <= 100001) {
-				centreX = svgCentre.x + 600;	//500
+				centreX = svgCentre.x + 600;
+				centreY = svgCentre.y - 200;//500
 			} else if (d.value <= 250001) {
 				centreX = svgCentre.x + 500;	//400
 			} else if (d.value <= 500001) {
@@ -294,7 +295,7 @@ function moveToAmounts(alpha) {
 			}
 		
 		d.x += (centreX - d.x) * (brake + 0.1) * alpha * 2.2;	//d.x += (centreX - d.x) * (brake + 0.02) * alpha * 1.1;
-		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 2.2;	//d.y += (centreY - d.y) * (brake + 0.02) * alpha * 2.2;
+		d.y += (centreY - d.y) * (brake + 0.1) * alpha * 2.2;	//d.y += (centreY - d.y) * (brake + 0.02) * alpha * 2.2;
 	};
 }
 // Collision detection function by m bostock
