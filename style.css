@@ -155,6 +155,13 @@ li {
     left: 895px;
     width: 93px;
 }
+#seventh {
+    font-weight: bold;
+    position: absolute;
+    top: 235px;
+    left: 995px;
+    width: 93px;
+}
 /* Value scale */
 
 #value-scale {
