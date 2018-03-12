@@ -6,11 +6,10 @@ var force, node, data, maxVal;
 var brake = 0.2;
 var radius = d3.scale.sqrt().range([10, 20]);
 
-
 var partyCentres = { 
     con: { x: w / 3, y: h / 3.3}, 
     lab: {x: w / 3, y: h / 2.3}, 
-    lib: {x: w / 3, y: h / 1.8}
+    lib: {x: w / 3	, y: h / 1.8}
   };
 
 var entityCentres = { 
@@ -19,10 +18,11 @@ var entityCentres = {
 		other: {x: w / 1.15, y: h / 1.9},
 		society: {x: w / 1.12, y: h  / 3.2 },
 		pub: {x: w / 1.8, y: h / 2.8},
-		individual: {x: w / 3.65, y: h / 3.3}
+		individual: {x: w / 3.65, y: h / 3.3},
 	};
 
-var fill = d3.scale.ordinal().range([ "#802000", "#003300", "#002080"]);
+//Change the colour of the balls
+var fill = d3.scale.ordinal().range(["#308E15", "#9B8EBD", "#875A29"]); 
 
 var svgCentre = { 
     x: w / 3.6, y: h / 2
@@ -49,7 +49,7 @@ function transition(name) {
 		$("#view-donor-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
-		$("#view-by-amount").fadeOut(250);
+		$("#view-donation-amount").fadeOut(250);
 		return total();
 		//location.reload();
 	}
@@ -59,7 +59,7 @@ function transition(name) {
 		$("#view-donor-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-party-type").fadeIn(1000);
-		$("#view-by-amount").fadeOut(250);
+		$("#view-donation-amount").fadeOut(250);
 		return partyGroup();
 	}
 	if (name === "group-by-donor-type") {
@@ -68,28 +68,30 @@ function transition(name) {
 		$("#view-party-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-donor-type").fadeIn(1000);
-		$("#view-by-amount").fadeOut(250);
+		$("#view-donation-amount").fadeOut(250);
 		return donorType();
 	}
-	if (name === "group-by-money-source"){
+	if (name === "group-by-money-source") {
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
 		$("#view-source-type").fadeIn(1000);
-		$("#view-by-amount").fadeOut(250);
+		$("#view-donation-amount").fadeOut(250);
 		return fundsType();
 	}
-	if (name === "group-by-amount-donor"){
+	//New transition
+	if (name === "group-by-donation-amount") {
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
-		$("#view-by-amount").fadeIn(1000);
-		return amountType();
+		$("#view-donation-amount").fadeIn(1000);
+		return amountsGroup();
 	}
-}
+	}
+
 function start() {
 
 	node = nodeGroup.selectAll("circle")
@@ -106,13 +108,12 @@ function start() {
 		.attr("r", 0)
 		.style("fill", function(d) { return fill(d.party); })
 		.on("mouseover", mouseover)
-		.on("mouseout", mouseout)
-		.on("click", function(d) { window.open(GooglePls + d.donor);});
+		.on("mouseout", mouseout)	//;
 		// Alternative title based 'tooltips'
 		// node.append("title")
 		//	.text(function(d) { return d.donor; });
-		.on("click", googleSearch);
-
+		.on("click", googleSearch);	//activate google search
+	
 		force.gravity(0)
 			.friction(0.75)
 			.charge(function(d) { return -Math.pow(d.radius, 2) / 3; })
@@ -157,13 +158,16 @@ function fundsType() {
 		.on("tick", types)
 		.start();
 }
-function amountType(){
+//New function
+function amountsGroup() {
 	force.gravity(0)
 		.friction(0.8)
-		.charge(function(d){return -Math.pow(d.radius, 2.0) / 3 ;})
-		.on("tick", Amount)
-		.start();
+		.charge(function(d) { return -Math.pow(d.radius, 2.0) / 3; })
+		.on("tick", amounts)
+		.start()
+		.colourByParty();
 }
+
 function parties(e) {
 	node.each(moveToParties(e.alpha));
 
@@ -185,12 +189,7 @@ function types(e) {
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
 }
-function Amount(e) {
-	node.each(moveToAmount(e.alpha));
 
-		node.attr("cx", function(d) { return d.x; })
-			.attr("cy", function(d) {return d.y; });
-}
 function all(e) {
 	node.each(moveToCentre(e.alpha))
 		.each(collide(0.001));
@@ -198,6 +197,15 @@ function all(e) {
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
 }
+//New function
+function amounts(e) {
+	node.each(moveToAmounts(e.alpha))
+		//.each(collide(0.001));
+
+		node.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) {return d.y; });
+}
+
 function moveToCentre(alpha) {
 	return function(d) {
 		var centreX = svgCentre.x + 75;
@@ -265,6 +273,7 @@ function moveToFunds(alpha) {
 		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 1.1;
 	};
 }
+//New function+++
 function moveToAmounts(alpha) {
 	return function(d) {
 		var centreY = svgCentre.y;
@@ -342,7 +351,7 @@ function display(data) {
 				y: -y
       };
 			
-      nodes.push(node);
+      nodes.push(node)
 	});
 
 	console.log(nodes);
@@ -362,8 +371,7 @@ function mouseover(d, i) {
 	var party = d.partyLabel;
 	var entity = d.entityLabel;
 	var offset = $("svg").offset();
-	
-
+	this.style.cursor="pointer";	//change the style of cursor to pointer
 
 	// image url that want to check
 	var imageFile = "https://raw.githubusercontent.com/ioniodi/D3js-uk-political-donations/master/photos/" + donor + ".ico";
@@ -388,25 +396,25 @@ function mouseover(d, i) {
 	mosie.classed("active", true);
 	d3.select(".tooltip")
   	.style("left", (parseInt(d3.select(this).attr("cx") - 80) + offset.left) + "px")
-    	.style("top", (parseInt(d3.select(this).attr("cy") - (d.radius+150)) + offset.top) + "px")
+    .style("top", (parseInt(d3.select(this).attr("cy") - (d.radius+150)) + offset.top) + "px")
 		.html(infoBox)
 			.style("display","block");
-	var speech = new SpeechSynthesisUtterance("The donator is " + donor + " and the given amount is " + amount + " pounds");
-	window.speechSynthesis.speak(speech);
 	
-	
-	
+	responsiveVoice.speak("Donor:     " + donor + "Amount of donation:     " + "  £" + amount);	//add voice
 	}
 
 function mouseout() {
 	// no more tooltips
-		
 		var mosie = d3.select(this);
+		
+		this.style.cursor="default";	//default style of cursor
+	
 		mosie.classed("active", false);
 
 		d3.select(".tooltip")
 			.style("display", "none");
-		window.speechSynthesis.cancel();
+	
+	responsiveVoice.cancel();	//remove voice
 		}
 
 $(document).ready(function() {
@@ -418,6 +426,7 @@ $(document).ready(function() {
 
 });
 
+/* Function which opens google search results for each donor */
 function googleSearch(d) {
   var donor = d.donor;
   window.open("https://www.google.com/search?q=" + donor);
