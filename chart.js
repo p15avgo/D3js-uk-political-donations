@@ -5,8 +5,6 @@ var nodes = [];
 var force, node, data, maxVal;
 var brake = 0.2;
 var radius = d3.scale.sqrt().range([10, 20]);
-var sound = new Audio("ButtonSound.mp3");
-var GooglePls = "http://www.google.com/search?q=";
 
 var partyCentres = { 
     con: { x: w / 3, y: h / 3.3}, 
@@ -23,7 +21,8 @@ var entityCentres = {
 		individual: {x: w / 3.65, y: h / 3.3},
 	};
 
-var fill = d3.scale.ordinal().range([ "#802000", "#003300", "#002080"]);
+//Change the colour of the balls
+var fill = d3.scale.ordinal().range(["#802000", "#003300", "#002080"]); 
 
 var svgCentre = { 
     x: w / 3.6, y: h / 2
@@ -45,60 +44,52 @@ var comma = d3.format(",.0f");
 
 function transition(name) {
 	if (name === "all-donations") {
-		sound.currentTime=0;  
-		sound.play();
 		$("#initial-content").fadeIn(250);
 		$("#value-scale").fadeIn(1000);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
-		$("#view-by-amount").fadeOut(250);
+		$("#view-donation-amount").fadeOut(250);
 		return total();
 		//location.reload();
 	}
 	if (name === "group-by-party") {
-		sound.currentTime=0;  
-		sound.play();
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
-		$("#view-by-amount").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-party-type").fadeIn(1000);
+		$("#view-donation-amount").fadeOut(250);
 		return partyGroup();
 	}
 	if (name === "group-by-donor-type") {
-		sound.currentTime=0;  
-		sound.play();
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
-		$("#view-by-amount").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
 		$("#view-source-type").fadeOut(250);
 		$("#view-donor-type").fadeIn(1000);
+		$("#view-donation-amount").fadeOut(250);
 		return donorType();
 	}
-	if (name === "group-by-amount-donor"){
-		sound.currentTime=0;  
-		sound.play();
+	if (name === "group-by-money-source") {
 		$("#initial-content").fadeOut(250);
 		$("#value-scale").fadeOut(250);
-		$("#view-donor-type").fadeOut(250);
-		$("#view-party-type").fadeOut(250);
-		$("#view-source-type").fadeIn(250);
-		$("#view-by-amount").fadeOut(1000);
-		return amountType();
-	}
-	if (name === "group-by-money-source"){
-		sound.currentTime=0;  
-		sound.play();
-		$("#initial-content").fadeOut(250);
-		$("#value-scale").fadeOut(250);
-		$("#view-by-amount").fadeOut(250);
 		$("#view-donor-type").fadeOut(250);
 		$("#view-party-type").fadeOut(250);
 		$("#view-source-type").fadeIn(1000);
+		$("#view-donation-amount").fadeOut(250);
 		return fundsType();
+	}
+	//New transition
+	if (name === "group-by-donation-amount") {
+		$("#initial-content").fadeOut(250);
+		$("#value-scale").fadeOut(250);
+		$("#view-donor-type").fadeOut(250);
+		$("#view-party-type").fadeOut(250);
+		$("#view-source-type").fadeOut(250);
+		$("#view-donation-amount").fadeIn(1000);
+		return amountsGroup();
+	}
 	}
 
 function start() {
@@ -117,12 +108,12 @@ function start() {
 		.attr("r", 0)
 		.style("fill", function(d) { return fill(d.party); })
 		.on("mouseover", mouseover)
-		.on("mouseout", mouseout)
-		.on("click", function(d) { window.open(GooglePls + d.donor);});
+		.on("mouseout", mouseout)	//;
 		// Alternative title based 'tooltips'
 		// node.append("title")
 		//	.text(function(d) { return d.donor; });
-
+		.on("click", googleSearch);	//activate google search
+	
 		force.gravity(0)
 			.friction(0.75)
 			.charge(function(d) { return -Math.pow(d.radius, 2) / 3; })
@@ -155,23 +146,26 @@ function partyGroup() {
 function donorType() {
 	force.gravity(0)
 		.friction(0.8)
-		.charge(function(d) { return -Math.pow(d.radius, 2) / 2.5; })
+		.charge(function(d) { return -Math.pow(d.radius, 2.0) / 3; })
 		.on("tick", entities)
 		.start();
 }
-function amountType(){
-	force.gravity(0)
-		.friction(0.8)
-		.charge(function(d){return -Math.pow(d.radius,2.0)/3;})
-		.on("tick", byAmount)
-		.start();
-}
+
 function fundsType() {
 	force.gravity(0)
 		.friction(0.75)
 		.charge(function(d) { return -Math.pow(d.radius, 2.0) / 3; })
 		.on("tick", types)
 		.start();
+}
+//New function
+function amountsGroup() {
+	force.gravity(0)
+		.friction(0.8)
+		.charge(function(d) { return -Math.pow(d.radius, 2.0) / 3; })
+		.on("tick", amounts)
+		.start()
+		.colourByParty();
 }
 
 function parties(e) {
@@ -187,12 +181,7 @@ function entities(e) {
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
 }
-function byAmount(e) {
-	node.each(moveTobyAmount(e.alpha));
 
-		node.attr("cx", function(d) { return d.x; })
-			.attr("cy", function(d) {return d.y; });
-}
 function types(e) {
 	node.each(moveToFunds(e.alpha));
 
@@ -208,7 +197,14 @@ function all(e) {
 		node.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) {return d.y; });
 }
+//New function
+function amounts(e) {
+	node.each(moveToAmounts(e.alpha))
+		//.each(collide(0.001));
 
+		node.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) {return d.y; });
+}
 
 function moveToCentre(alpha) {
 	return function(d) {
@@ -261,35 +257,7 @@ function moveToEnts(alpha) {
 		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 1.1;
 	};
 }
-function moveTobyAmount(alpha) {
-	return function(d) {
-			var centreX;
-			var centreY;
-			if (d.value <= 100000) {
-				centreY = 700;
-				centreX = 300;
-				
-			} else if (d.value <= 500000) {
-				centreY = 600;
-				centreX = 750;
-				
-			} else if (d.value <= 1000000) {
-				centreY = 500;
-				centreX = 300;
-				
-			} else  if (d.value <= 5000000) {
-				centreY = 400;
-				centreX = 750;
-				
-			} else  if (d.value <= maxVal) {
-				centreY = 300;
-				centreX = 300;
-			}
 
-		d.x += (centreX - d.x) * (brake + 0.06) * alpha * 1.2;
-		d.y += (centreY - 100 - d.y) * (brake + 0.06) * alpha * 1.2;
-	};
-}
 function moveToFunds(alpha) {
 	return function(d) {
 		var centreY = entityCentres[d.entity].y;
@@ -305,7 +273,37 @@ function moveToFunds(alpha) {
 		d.y += (centreY - d.y) * (brake + 0.02) * alpha * 1.1;
 	};
 }
-
+//New function+++
+function moveToAmounts(alpha) {
+	return function(d) {
+		var centreY = svgCentre.y;
+			if (d.value <= 100001) {
+				centreX = svgCentre.x + 600;
+				centreY = svgCentre.y + 75;//500
+			} else if (d.value <= 250001) {
+				centreX = svgCentre.x + 500;
+				centreY = svgCentre.y + 55;//400
+			} else if (d.value <= 500001) {
+				centreX = svgCentre.x + 400;
+				centreY = svgCentre.y + 35;//300
+			} else  if (d.value <= 1000001) {
+				centreX = svgCentre.x + 300;
+				centreY = svgCentre.y;//200
+			} else  if (d.value <= 5000001) {
+				centreX = svgCentre.x + 200;
+				centreY = svgCentre.y + 35;//100
+			} else  if (d.value <= maxVal) {
+				centreX = svgCentre.x ;
+				centreY = svgCentre.y + 55;
+			} else {
+				centreX = svgCentre.x;
+				centreY = svgCentre.y + 75;// if the amount of the donation > maxVal, it is classified within the largest amounts
+			}
+		
+		d.x += (centreX - d.x) * (brake + 0.1) * alpha * 2.2;	//d.x += (centreX - d.x) * (brake + 0.02) * alpha * 1.1;
+		d.y += (centreY - d.y) * (brake + 0.1) * alpha * 2.2;	//d.y += (centreY - d.y) * (brake + 0.02) * alpha * 2.2;
+	};
+}
 // Collision detection function by m bostock
 function collide(alpha) {
   var quadtree = d3.geom.quadtree(nodes);
@@ -380,8 +378,7 @@ function mouseover(d, i) {
 	var party = d.partyLabel;
 	var entity = d.entityLabel;
 	var offset = $("svg").offset();
-	
-
+	this.style.cursor="pointer";	//change the style of cursor to pointer
 
 	// image url that want to check
 	var imageFile = "https://raw.githubusercontent.com/ioniodi/D3js-uk-political-donations/master/photos/" + donor + ".ico";
@@ -406,24 +403,25 @@ function mouseover(d, i) {
 	mosie.classed("active", true);
 	d3.select(".tooltip")
   	.style("left", (parseInt(d3.select(this).attr("cx") - 80) + offset.left) + "px")
-    	.style("top", (parseInt(d3.select(this).attr("cy") - (d.radius+150)) + offset.top) + "px")
+    .style("top", (parseInt(d3.select(this).attr("cy") - (d.radius+150)) + offset.top) + "px")
 		.html(infoBox)
 			.style("display","block");
-	var speech = new SpeechSynthesisUtterance("The donator is " + donor + " and the given amount is " + amount + " pounds");
-	window.speechSynthesis.speak(speech);
 	
-	
+	responsiveVoice.speak("Donor:     " + donor + "Amount of donation:     " + "  £" + amount);	//add voice
 	}
 
 function mouseout() {
 	// no more tooltips
 		var mosie = d3.select(this);
-
+		
+		this.style.cursor="default";	//default style of cursor
+	
 		mosie.classed("active", false);
 
 		d3.select(".tooltip")
 			.style("display", "none");
-		window.speechSynthesis.cancel();
+	
+	responsiveVoice.cancel();	//remove voice
 		}
 
 $(document).ready(function() {
@@ -435,4 +433,8 @@ $(document).ready(function() {
 
 });
 
-
+/* Function which opens google search results for each donor */
+function googleSearch(d) {
+  var donor = d.donor;
+  window.open("https://www.google.com/search?q=" + donor);
+}
