@@ -408,6 +408,7 @@ function mouseover(d, i) {
 			.style("display","block");
 	
 	responsiveVoice.speak("Donor:     " + donor + "Amount of donation:     " + "  £" + amount);	//add voice
+	$("#mouseTrackingCrumbs").prepend("<img src='" + imageFile +"' width='30' height='30' onError='this.src=\"https://github.com/favicon.ico\";' /><br/>");
 	}
 
 function mouseout() {
